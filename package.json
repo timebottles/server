@@ -1,0 +1,30 @@
+{
+  "name": "timebottles",
+  "version": "1.0.0",
+  "description": "Collect happy times",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "hot": "supervisor index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/timebottles/server.git"
+  },
+  "keywords": [
+    "timebottles"
+  ],
+  "author": "chf",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/timebottles/server/issues"
+  },
+  "homepage": "https://github.com/timebottles/server#readme",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "mongoose": "^4.5.1",
+    "multer": "^1.1.0"
+  }
+}
