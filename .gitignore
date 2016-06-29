@@ -1,0 +1,8 @@
+// temp file
+*~
+
+// OS X temp-file
+.DS_Store
+
+// modules of node
+node_modules/
