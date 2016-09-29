@@ -4,8 +4,13 @@
     "browser"
   ],
   "plugins": {
-    "doc_comment":{},
+    "doc_comment": {
+      "fullDocs": true
+    },
+    "complete_strings": {},
     "node": {},
+    "node-express": {},
+    "es_modules": {},
     "requirejs": {
       "baseURL": "./",
       "paths": {}
