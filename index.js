@@ -5,7 +5,7 @@ var path = require('path');
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 var multer = require('multer');
-var mongoose = require('mongoose');
+// var mongoose = require('mongoose');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 
@@ -44,8 +44,8 @@ app.get('/', (req, res) => {
 });
 
 // app.use(multer()); // for parsing multipart/form-data
-app.use('/oauth2', require('./rest/oauth2'));
-app.use('/users', require('./rest/user.resource'));
+// app.use('/oauth2', require('./rest/oauth2'));
+// app.use('/users', require('./rest/user.resource'));
 
 // Error process
 app.use(function(err, req, res, next) {
@@ -57,9 +57,8 @@ app.use(function(err, req, res, next) {
 });
 
 // 开启服务，监听配置中给定的端口
-app.listen(port, function() {
-    console.log('Express started on http://localhost:' +
-        app.get('port') + '; press Ctrl-C to terminate.');
+app.listen(app.get('port'), () => {
+    console.log('server is start a port :' + app.get('port'));
 });
 
 // /*******  start server & fault-tolerance  **********/
