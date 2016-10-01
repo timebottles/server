@@ -1,14 +1,15 @@
 /*******  import module  **********/
-var express = require('express');
-var app = express();
-var path = require('path');
-var bodyParser = require('body-parser');
-var cookieParser = require('cookie-parser');
-var multer = require('multer');
-// var mongoose = require('mongoose');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
+import express from 'express';
+const app = express();
+import path from 'path';
+import bodyParser from 'body-parser';
+import cookieParser from 'cookie-parser';
+import multer from 'multer';
 
+// var mongoose from ''mongoose');
+import favicon from 'serve-favicon';
+import logger from 'morgan';
+import router from './router';
 
 /*******   配置   **********/
 // // db
@@ -26,39 +27,31 @@ app.disable('x-powered-by');
 
 //TODO: uncomment after placing your favicon in /public
 //app.use(favicon(__dirname + '/public/favicon.ico'));
-app.use(bodyParser.json()); // for parsing application/json
-app.use(bodyParser.urlencoded({
-  extended: true
-})); // for parsing application/x-www-form-urlencoded
+app.use(bodyParser.json());
+
+// for parsing application/json
+app.use(bodyParser.text());
+
+// for parsing application/json
+app.use(bodyParser.urlencoded({extended: false}));
+
+// for parsing application/x-www-form-urlencoded
 app.use(cookieParser());
 
-// Static parse
+/*******  Static parse  **********/
 app.use(express.static(path.join(__dirname, 'public')));
 
-
 /*******  router  **********/
-// 设置路由 - 首页
-app.get('/', (req, res) => {
-    res.type('text/plain');
-    res.send('欢迎来到时光瓶');
-});
+router(app);
 
 // app.use(multer()); // for parsing multipart/form-data
 // app.use('/oauth2', require('./rest/oauth2'));
 // app.use('/users', require('./rest/user.resource'));
 
-// Error process
-app.use(function(err, req, res, next) {
-  res.status(err.status || 500);
-  res.render('error', {
-    message: err.message,
-    error: {}
-  });
-});
 
 // 开启服务，监听配置中给定的端口
 app.listen(app.get('port'), () => {
-    console.log('server is start a port :' + app.get('port'));
+  console.log('server is start a port :' + app.get('port'));
 });
 
 // /*******  start server & fault-tolerance  **********/

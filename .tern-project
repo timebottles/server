@@ -5,15 +5,23 @@
   ],
   "plugins": {
     "doc_comment": {
-      "fullDocs": true
+      "fullDocs": true,
+      "strong": false
     },
-    "complete_strings": {},
-    "node": {},
+    "node": {
+      "dontLoad": "",
+      "load": "",
+      "modules": ""
+    },
     "node-express": {},
     "es_modules": {},
     "requirejs": {
       "baseURL": "./",
-      "paths": {}
+      "paths": {},
+      "override": ""
+    },
+    "complete_strings": {
+      "maxLength": 15
     }
   }
 }

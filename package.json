@@ -4,8 +4,9 @@
   "description": "the server of timebottles",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "hot": "supervisor index.js",
+    "start": "babel-node src/index.js",
+    "build": "babel src --out-dir lib",
+    "publish": "pm2 start index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -31,5 +32,11 @@
     "multer": "^1.1.0",
     "serve-favicon": "^2.3.0",
     "tern-node-express": "^0.4.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.16.0",
+    "babel-core": "^6.16.0",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.16.0",
+    "babel-plugin-transform-strict-mode": "^6.11.3"
   }
 }
