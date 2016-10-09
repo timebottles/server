@@ -43,7 +43,7 @@ export default class PieceController {
     // sort body
     let bodys = Object.getOwnPropertyNames(body);
     bodys = bodys.filter((item, index, arr) => (item !== 'sign'));
-    bodys.sort((a, b) => (a[0] > b[0]));
+    bodys.sort((a, b) => (a > b));
     bodys.forEach((key, index, array) => {
       sign += (key + body[key]);
     });
