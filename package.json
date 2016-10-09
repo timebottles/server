@@ -4,9 +4,9 @@
   "description": "the server of timebottles",
   "main": "index.js",
   "scripts": {
-    "start": "babel-node src/index.js",
-    "build": "babel src --out-dir lib",
-    "publish": "pm2 start index.js",
+    "start": "rm -rf node_modules/app; mkdir node_modules/app; rm -rf lib; babel src --out-dir lib; ln -s ../../lib/base node_modules/app/base;ln -s ../../lib/core node_modules/app/core;ln -s ../../lib/module node_modules/app/module;node lib/index.js",
+    "build": "rm -rf node_modules/app; mkdir node_modules/app; rm -rf lib; babel src --out-dir lib; ln -s ../../lib/base node_modules/app/base;ln -s ../../lib/core node_modules/app/core;ln -s ../../lib/module node_modules/app/module",
+    "publish": "pm2 start lib/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -29,7 +29,7 @@
     "express-session": "^1.13.0",
     "mongoose": "^4.5.1",
     "morgan": "^1.5.1",
-    "multer": "^1.1.0",
+    "multer": "^1.2.0",
     "serve-favicon": "^2.3.0",
     "tern-node-express": "^0.4.0"
   },

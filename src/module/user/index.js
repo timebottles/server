@@ -14,8 +14,8 @@
 
 import crypto from 'crypto';
 import UserBusiness from './business/UserBusiness'
-import {Error, ErrorCode} from '../../base/monitor'
-import ReturnJson from '../../base/network/ReturnJson'
+import {Error, ErrorCode} from 'app/base/monitor'
+import ReturnJson from 'app/base/network/ReturnJson'
 
 function isEmptyObject(e) {
    var t;
@@ -24,7 +24,7 @@ function isEmptyObject(e) {
    return !0
 }
 
-export default class user {
+export default class UserController {
 
 
   // 登录 rest
@@ -54,7 +54,8 @@ export default class user {
       sign += salt;
     }
 
-    console.log('before sha1:' + sign);
+    console.log('sign before sha1:' + sign);
+
     var sha1 = crypto.createHash('sha1');
     sha1.update(sign);
     sign = sha1.digest('hex').toLowerCase();

@@ -14,7 +14,9 @@
  */
 
 import user from './module/user';
-import ReturnJson from './base/network/ReturnJson'
+import piece from './module/piece'
+import ReturnJson from 'app/base/network/ReturnJson'
+import NormalUploadParse from 'app/base/upload/NormalUpload';
 
 // 路由处理
 export default function router(app) {
@@ -27,10 +29,16 @@ export default function router(app) {
   });
 
   // -------------------------
-  // User
+  // User（用户相关）
   // -------------------------
   // login
   app.post('/user/login', user.login);
+
+  // -------------------------
+  // Piece（时光碎片相关）
+  // -------------------------
+  // upload
+  app.post('/piece/upload', NormalUploadParse.single('piece'), piece.uploadPiece);
 
 
   // -------------------------

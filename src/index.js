@@ -29,17 +29,16 @@ app.disable('x-powered-by');
 //app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(bodyParser.json());
 
-// for parsing application/json
+// for parsing plain/text
 app.use(bodyParser.text());
 
-// for parsing application/json
+// for parsing application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({extended: false}));
 
-// for parsing application/x-www-form-urlencoded
 app.use(cookieParser());
 
 /*******  Static parse  **********/
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static('./public'));
 
 /*******  router  **********/
 router(app);
