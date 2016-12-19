@@ -12,6 +12,7 @@
  *  import error from '....'
  *  error(code,msg);
  */
+
 export default function(code , msg){
   let err = new Error(msg);
   err.errCode = code;

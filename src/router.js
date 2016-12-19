@@ -13,10 +13,16 @@
  *
  */
 
-import user from './module/user';
-import piece from './module/piece'
-import ReturnJson from 'app/base/network/ReturnJson'
+// tools
+import ReturnJson from 'app/base/network/ReturnJson';
 import NormalUploadParse from 'app/base/upload/NormalUpload';
+import paramParser from 'app/core/middleware/ParamParser';
+import passport from 'passport';
+// modules
+import common from './module/common';
+import user from './module/user';
+import piece from './module/piece';
+
 
 // 路由处理
 export default function router(app) {
@@ -29,10 +35,21 @@ export default function router(app) {
   });
 
   // -------------------------
-  // User（用户相关）
+  // Common
   // -------------------------
-  // login
-  app.post('/user/login', user.login);
+  app.post('/common/get_smscode', paramParser, common.getVerifyCode);
+
+
+  // -------------------------
+  // 登录模块
+  // -------------------------
+  // 罗列所有系统用户
+  app.use('/user/list', user.checkLogin , user.listUser);
+  // 登录
+  app.post('/user/login', user.loginPassport(), user.passLogin);
+  app.post('/logout', user.logout);
+  // 注册新用户
+  app.post('/user/register', paramParser, user.register);
 
   // -------------------------
   // Piece（时光碎片相关）
@@ -59,7 +76,9 @@ export default function router(app) {
     console.log('err: ' + JSON.stringify(err));
     if(err.errCode === undefined || err.errCode === null || err.length == 0){
       console.log(err.stack);
+      res.json(new ReturnJson('',1001,'system err'));
+    }else{
+      res.json(new ReturnJson('',err.errCode, err.message).json());
     }
-    res.json(new ReturnJson('',err.errCode, err.message).json());
   });
 };

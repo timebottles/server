@@ -16,7 +16,7 @@
  */
 import ErrorCode from '../monitor/ErrorCode'
 
-export default class ReturnJson{
+class ReturnJson{
   /**
    * 构造函数
    *
@@ -55,3 +55,5 @@ export default class ReturnJson{
 
   }
 }
+
+export default ReturnJson;

@@ -4,9 +4,9 @@
   "description": "the server of timebottles",
   "main": "index.js",
   "scripts": {
-    "start": "rm -rf node_modules/app; mkdir node_modules/app; rm -rf lib; babel src --out-dir lib; ln -s ../../lib/base node_modules/app/base;ln -s ../../lib/core node_modules/app/core;ln -s ../../lib/module node_modules/app/module;node lib/index.js",
-    "build": "rm -rf node_modules/app; mkdir node_modules/app; rm -rf lib; babel src --out-dir lib; ln -s ../../lib/base node_modules/app/base;ln -s ../../lib/core node_modules/app/core;ln -s ../../lib/module node_modules/app/module",
-    "publish": "pm2 start lib/index.js",
+    "start": "rm -rf node_modules/app; mkdir node_modules/app;ln -s ../../src/base node_modules/app/base;ln -s ../../src/core node_modules/app/core;ln -s ../../src/module node_modules/app/module;ln -s ../../src/model node_modules/app/model;pm2 start src/index.js --interpreter babel-node --watch src;pm2 log index",
+    "build": "rm -rf node_modules/app; mkdir node_modules/app; ln -s ../../src/base node_modules/app/base;ln -s ../../src/core node_modules/app/core;ln -s ../../src/module node_modules/app/module;ln -s ../../src/model node_modules/app/model",
+    "publish": "pm2 start src/index.js --interpreter babel-node",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -29,9 +29,12 @@
     "express-session": "^1.13.0",
     "mongoose": "^4.5.1",
     "morgan": "^1.5.1",
+    "file-stream-rotator": "0.0.7",
     "multer": "^1.2.0",
     "serve-favicon": "^2.3.0",
-    "tern-node-express": "^0.4.0"
+    "tern-node-express": "^0.4.0",
+    "passport": "^0.3.2",
+    "passport-local": "^1.0.0"
   },
   "devDependencies": {
     "babel-cli": "^6.16.0",

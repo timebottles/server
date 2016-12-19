@@ -13,67 +13,53 @@
  */
 
 import crypto from 'crypto';
-import UserBusiness from './business/UserBusiness'
-import {Error, ErrorCode} from 'app/base/monitor'
-import ReturnJson from 'app/base/network/ReturnJson'
+import passport from 'passport';
+// tools
+import UserBusiness from './business/UserBusiness';
+import {Error, ErrorCode} from 'app/base/monitor';
+import ReturnJson from 'app/base/network/ReturnJson';
 
-function isEmptyObject(e) {
-   var t;
-   for (t in e)
-       return !1;
-   return !0
-}
+class UserController {
 
-export default class UserController {
+  /** 列出当前系统的所有用户 */
+  static listUser(req, res, next) {
+    UserBusiness.listUser()
+      .then((users) => res.json(new ReturnJson(users)))
+      .catch((e) => next(Error(1001, 'db err')));
+  }
 
+  /** 登录授权服务 */
+  static loginPassport() {
+    return passport.authenticate('login');
+  }
 
-  // 登录 rest
-  static login(req, res) {
-    let isPost = req.route.methods.post;
-    let method = req.route.path;
-    let salt = '7asdf98z2p9bi23klo94nb186as2lklkj88s';
-    let verb = isPost ? 'POST':'GET';
-    let sign = verb + method;
+  /** 登录授权服务 */
+  static passLogin(req, res) {
+    res.json(new ReturnJson(req.user));
+  }
 
-    // generate sign
-    if(isPost){
-      let body = req.body;
-      if(isEmptyObject(body)){
-        throw Error(ErrorCode.LACK_PARAM, ErrorCode.LACK_PARAM_MSG);
-      }
-
-      // sort body
-      let bodys = Object.getOwnPropertyNames(body);
-      bodys = bodys.filter((item,index,arr)=>(item !== 'sign'));
-      bodys.sort( (a,b) => (a > b) );
-      bodys.forEach((key,index,array)=>{
-        sign += (key + body[key])
-      });
-
-      // add sault
-      sign += salt;
-    }
-
-    console.log('sign before sha1:' + sign);
-
-    var sha1 = crypto.createHash('sha1');
-    sha1.update(sign);
-    sign = sha1.digest('hex').toLowerCase();
-
-    console.log('sign:' + sign);
-
-    // check sign
-    if(req.body.sign !== sign){
-      throw Error(ErrorCode.SIGN_ERR, ErrorCode.SIGN_ERR_MSG);
-    }
-
-    // login
-    let userInfo = UserBusiness.loginWithAccountAndPsw(req.body.user_account,req.body.user_psw);
-    if(!userInfo){
-      throw Error(2001, 'user invalid')
-    }else {
-      delete userInfo.psw;
-      res.json(new ReturnJson(userInfo));
+  /** 检查登录 */
+  static checkLogin(req, res, next) {
+    if (req.isAuthenticated()) {
+      next();
+    } else {
+      throw Error(1001, 'do not login');
     }
   }
+
+  static logout(req, res, next) {
+    req.logout();
+    res.json(new ReturnJson());
+  }
+
+  /**
+   * 注册
+   */
+  static register(req, res, next) {
+    UserBusiness.registerUser(req.body.phone, req.body.password, req.body.verifycode)
+      .then((doc) => res.json(new ReturnJson({uid: doc.user_id})))
+      .catch((e) => next(e));
+  }
 };
+
+export default UserController;
