@@ -3,7 +3,7 @@ const devConfig = {
   env : 'develop',
 
   /** 服务器端口 */
-  port: 8083,
+  port: 8081,
 
   /** @type {object} 数据库配置 */
   dbConfig: {
@@ -26,7 +26,7 @@ const pubConfig = {
   env : 'publish',
 
   /** 服务器端口 */
-  port: 8083,
+  port: 8081,
 
   /** @type {object} 数据库配置 */
   dbConfig: {
