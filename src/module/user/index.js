@@ -16,8 +16,7 @@ import crypto from 'crypto';
 import passport from 'passport';
 // tools
 import UserBusiness from './business/UserBusiness';
-import {Error, ErrorCode} from 'app/base/monitor';
-import ReturnJson from 'app/base/network/ReturnJson';
+import {Error, ErrorCode, ReturnJson} from 'app/base/network';
 
 class UserController {
 

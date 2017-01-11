@@ -11,8 +11,7 @@
  *  Usage :
  *
  */
-import {Error, ErrorCode} from 'app/base/monitor';
-import ReturnJson from 'app/base/network/ReturnJson';
+import {Error, ErrorCode, ReturnJson} from 'app/base/network';
 import UserModel from 'app/model/UserModel';
 
 // 用户模块业务类

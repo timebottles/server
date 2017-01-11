@@ -12,7 +12,11 @@
  *  ReturnJson - 以Json形式包装返回结果
  */
 import ReturnJson from './ReturnJson';
+import Error from './Error';
+import ErrorCode from './ErrorCode';
 
 export {
-  ReturnJson
+  ReturnJson,
+  Error,
+  ErrorCode,
 }

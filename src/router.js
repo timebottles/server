@@ -22,7 +22,8 @@ import passport from 'passport';
 import common from './module/common';
 import user from './module/user';
 import piece from './module/piece';
-
+import demo from './module/demo';
+import bottle from './module/timebottle';
 
 // 路由处理
 export default function router(app) {
@@ -35,7 +36,7 @@ export default function router(app) {
   });
 
   // -------------------------
-  // Common
+  // Common 一般功能模块
   // -------------------------
   app.post('/common/get_smscode', paramParser, common.getVerifyCode);
 
@@ -46,10 +47,15 @@ export default function router(app) {
   // 罗列所有系统用户
   app.use('/user/list', user.checkLogin , user.listUser);
   // 登录
-  app.post('/user/login', user.loginPassport(), user.passLogin);
+  app.post('/user/login', paramParser, user.loginPassport(), user.passLogin);
   app.post('/logout', user.logout);
   // 注册新用户
   app.post('/user/register', paramParser, user.register);
+
+  // -------------------------
+  // Timebottle(时光瓶)模块
+  // -------------------------
+  app.post('/bottle/create' , user.checkLogin , paramParser , bottle.createBottle);
 
   // -------------------------
   // Piece（时光碎片相关）
@@ -57,6 +63,11 @@ export default function router(app) {
   // upload
   app.post('/piece/upload', NormalUploadParse.single('piece'), piece.uploadPiece);
 
+  // -------------------------
+  // Demo（调试相关）
+  // -------------------------
+  // 数据库测试
+  app.post('/demo/db', demo.dbDemo);
 
   // -------------------------
   // Error Process
@@ -72,10 +83,8 @@ export default function router(app) {
   // 500 or uncatch err
   app.use(function(err, req, res, next) {
     res.status(err.status || 500);
-    console.log('errCode:' + err.errCode + ',errorMsg :' + err.message);
-    console.log('err: ' + JSON.stringify(err));
+    console.log(err);
     if(err.errCode === undefined || err.errCode === null || err.length == 0){
-      console.log(err.stack);
       res.json(new ReturnJson('',1001,'system err'));
     }else{
       res.json(new ReturnJson('',err.errCode, err.message).json());

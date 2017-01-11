@@ -14,7 +14,7 @@
  *  let re = new ReturnJson({..}); // success 可以隐藏code & msg
  *  res.json(re.json());
  */
-import ErrorCode from '../monitor/ErrorCode'
+import ErrorCode from './ErrorCode'
 
 class ReturnJson{
   /**

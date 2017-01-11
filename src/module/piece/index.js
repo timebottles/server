@@ -13,11 +13,7 @@
  */
 
 import crypto from 'crypto';
-import {
-  Error,
-  ErrorCode
-} from 'app/base/monitor';
-import ReturnJson from 'app/base/network/ReturnJson';
+import {Error, ErrorCode, ReturnJson} from 'app/base/network';
 
 
 function isEmptyObject(e) {

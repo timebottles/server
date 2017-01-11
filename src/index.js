@@ -2,18 +2,12 @@
 import env from './env';
 import router from './router';
 import config from 'app/core/config';
-import mongoose from 'mongoose';
-//
+import db from 'app/base/db/DBConnection';
+// passport
 import PassportBusiness from 'app/module/user/business/PassportBusiness';
 
 /*******  init app  **********/
 const app = env();
-
-/*******  start database  **********/
-mongoose.connect(config.dbConfig.address);
-mongoose.Promise = global.Promise;
-var db = mongoose.connection;
-
 
 /*******  router  **********/
 router(app);

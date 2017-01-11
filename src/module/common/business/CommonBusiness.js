@@ -5,8 +5,7 @@
 *  @copyright © 2016年 Timebottles. All rights reserved.
 */
 
-import {Error, ErrorCode} from 'app/base/monitor';
-import ReturnJson from 'app/base/network/ReturnJson';
+import {Error, ErrorCode, ReturnJson} from 'app/base/network';
 
 class CommonBusiness {
 
