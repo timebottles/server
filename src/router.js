@@ -56,6 +56,7 @@ export default function router(app) {
   // Timebottle(时光瓶)模块
   // -------------------------
   app.post('/bottle/create' , user.checkLogin , paramParser , bottle.createBottle);
+  app.post('/bottle/list' , user.checkLogin , paramParser , bottle.listBottles);
 
   // -------------------------
   // Piece（时光碎片相关）

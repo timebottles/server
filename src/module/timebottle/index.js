@@ -25,7 +25,6 @@ class TimebottleController {
    */
   static createBottle(req , res , next){
     // param check
-    console.log(req.user);
     let bottleType = req.body.type;
     let bottleName = req.body.name;
     let bottleDes  = req.body.des;
@@ -45,6 +44,19 @@ class TimebottleController {
                       .catch((err)=>{
                         next(Error(1001, 'create bottle error'));
                       });
+  }
+
+  /**
+   * 列出一个用户的时光瓶
+   * @method listBottles
+   */
+  static listBottles(req , res , next){
+    let user = req.user;
+    if(!user){
+      throw Error(1001, 'user err');
+    }
+
+    res.json(new ReturnJson(user.user_bottles));
   }
 
 };
