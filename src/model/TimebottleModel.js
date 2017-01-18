@@ -6,19 +6,21 @@ let Schema = mongoose.Schema;
 //         Schema 定义
 // -----------------------------------------------
 let TimebottleSchema = new Schema({
-  bottle_id :{type:Number , index:true},
-  bottle_name      : { type: String, required: true },
-  bottle_type      : { type: Number, required: true,
-                       default:0 ,enum : [0, 1] },            // 瓶子类型
-  bottle_creator   : { type: Schema.Types.Mixed,
-                       required : true},                      // 创建者
-  bottle_des       : { type: String, required: false },
-  bottle_cover_url : { type: String, required: false },
-  bottle_members   : { type: [], required: false },
-  bottle_managers  : { type: [], required: false },
-  bottle_fragments : { type: [], required: false },
+  bid       : { type: Number , index:true},
+  name      : { type: String, required: true },
+  type      : { type: Number, required: true,
+                default:0 ,enum : [0, 1] },            // 瓶子类型
+  creator   : { type: Schema.Types.Mixed,
+                required : true},                      // 创建者
+  des       : { type: String, required: false },
+  cover_url : { type: String, required: false },
+  members   : { type: [], required: false },
+  managers  : { type: [], required: false },
+  fragments : { type: [], required: false },
+  photo_num : {type:Number, required:false , default:0},
 },
-  { timestamps: { createdAt: 'created_at', updatedAt:'updated_at' } }
+  // Schema Option
+  { timestamps: { createdAt: 'create_time', updatedAt:'update_time' } }
 );
 
 // --------------------
@@ -36,11 +38,15 @@ let TimebottleSchema = new Schema({
  */
 TimebottleSchema.methods.simpleOjbect = function () {
   return {
-    bottle_id:this.bottle_id,
-    bottle_name:this.bottle_name,
-    bottle_type:this.bottle_type,
-    bottle_des:this.bottle_des,
-    bottle_cover_url:this.bottle_cover_url,
+    bid         : this.bid,
+    name        : this.name,        // 相册名
+    type        : this.type,        // 相册类型
+    des         : this.des,         // 描述
+    creator     : this.creator ,    // 相册创建者
+    cover_url   : this.cover_url,
+    create_time : this.create_time, // 创建时间
+    update_time : this.update_time, // 最新修改时间
+    photo_num   : this.photo_num, // 照片数
   };
 }
 
@@ -61,9 +67,10 @@ Timebottle.TYPE_PRIVATE = 0;
 // -----------------------------------------------
 //         Schema 选项
 // -----------------------------------------------
+TimebottleSchema.set('toJSON', { virtuals: true })
 TimebottleSchema.plugin(autoIncrement.plugin, {
   model: 'Timebottle',
-  field: 'bottle_id',
+  field: 'bid',
   startAt: 1,
   incrementBy: 1
 });

@@ -33,11 +33,11 @@ class PassportBusiness {
     });
 
     passport.use('login', new Strategy({
-      usernameField: 'phone',
+      usernameField: 'account',
       passwordField: 'password'
-    }, (phone, password, done) => {
+    }, (account, password, done) => {
       UserModel.findOne({
-        user_phone: phone
+        account: account
       }, function(err, user) {
         if (err) {
           return done(err);
@@ -46,7 +46,7 @@ class PassportBusiness {
         console.log(user);
 
         if (!user) {
-          return done(null, false, {message: 'Incorrect username.'});
+          return done(null, false, {message: 'Incorrect account.'});
         }
         if (!user.isPswVerified(password)) {
           return done(null, false, {message: 'Incorrect password.'});

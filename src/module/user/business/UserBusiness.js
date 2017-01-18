@@ -26,24 +26,6 @@ export default class userBusiness {
   }
 
   /**
-   * 帐密登录
-   *
-   * @method loginWithAccountAndPsw
-   *
-   * @param  {string}               account
-   * @param  {string}               psw
-   *
-   * @return {object(userInfo)}    登录成功返回UserInfo，失败返回 null
-   */
-  static loginWithAccountAndPsw(account, psw) {
-    let userInfo = UserModel.getUserInfoByAccount(account);
-    if (userInfo != null && userInfo.psw === psw) {
-      return userInfo;
-    }
-    return null;
-  }
-
-  /**
    * 注册
    * @return {Promise} Promise->(user document)
    */
@@ -68,11 +50,16 @@ export default class userBusiness {
       throw Error(3200, 'vcode err');
     }
 
-    return UserModel.findOne({user_phone: phone}).exec().then((user) => {
+    return UserModel.findOne({phone: phone}).exec().then((user) => {
       if (user)
         throw Error(3001, 'user exist');
 
-      var newUser = new UserModel({user_psw: psw, user_type: UserModel.TYPE_SYSTEM, user_phone: phone});
+      var newUser = new UserModel({
+        account: phone,
+        psw: psw,
+        user_type: UserModel.TYPE_SYSTEM,
+        phone: phone
+      });
       return newUser.save();
     });
   }

@@ -1,4 +1,9 @@
 #3 用户模块
+
+<br>
+<br>
+----
+
 ---
 ## 3.1 账密登录
 
@@ -11,9 +16,9 @@
 |字段|类型|可否为空|描述|
 |:--:|:--:|:--:|:--:|
 | user_type |String|N|登录账号类别 (1为普通帐号登录，2:qq, 3:微信, 4:微博 )|
-| access_token |String|Y|第三方账号access_token（没有则不传）|
+| token |String|Y|第三方账号access_token（没有则不传）|
 | openid |String|Y|第三方账号openid (没有则不传)|
-| phone |String|N|手机号|
+| account |String|N|帐号|
 | password |String|Y|密码|
 
 
@@ -38,6 +43,7 @@
 			"token":"xxxx" //账号token
 			"expires":1435919975 //token过期时间
 			"phone":13812345678 //用户绑定手机
+			"email":abc@abc.com // 邮箱
 			"is_new_user":1 //是否为新用户（1为新用户、0为老用户）
 		}
 	}
@@ -51,6 +57,8 @@
 |3100|账号或密码错误|
 |3101|账号已锁定|
 
+<br>
+<br>
 ---
 ## 3.2基本注册
 
@@ -88,6 +96,8 @@
 |3202|密码不符合规则|
 |3203|系统错误|
 
+<br>
+<br>
 ---
 ## 3.3 上传头像
 * url : /user/update_avator
@@ -123,6 +133,9 @@
 |3301|图片过大|
 |3302|图片过小|
 
+<br>
+<br>
+----
 
 ## 3.4 补充用户信息
 

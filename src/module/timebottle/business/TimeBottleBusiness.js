@@ -32,17 +32,18 @@ export default class TimeBottleBusiness {
    * @return {Promise} Promise->(bottle) 成功返回瓶子信息
    */
   static createBottle(user , bottle){
-    bottle.bottle_creator = user;
-    bottle.bottle_managers = user;
-    bottle.bottle_members = user;
-    let bottleObject = bottle.simpleOjbect();
+    bottle.creator = user.simpleOjbect();
+    bottle.managers.addToSet(user.simpleOjbect());
+    bottle.members.addToSet(user.simpleOjbect());
+    let bottleObject;
 
     // 保存瓶子完后，将瓶子保存到用户的信息中。
     return bottle.save()
-                 .then( ()=> {
+                 .then( (bottleDoc)=> {
+                   bottleObject = bottleDoc.simpleOjbect();
                    // 创建瓶子成功后，把瓶子添加到用户创建与所有的瓶子队列中。
-                   user.user_create_bottles.addToSet([bottleObject]);
-                   user.user_bottles.addToSet([bottleObject]);
+                   user.create_bottles.addToSet(bottleObject);
+                   user.bottles.addToSet(bottleObject);
                    return user.save();
                  })
                  .then( ()=>bottleObject );
