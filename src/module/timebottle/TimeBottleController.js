@@ -28,21 +28,22 @@ class TimebottleController {
     let bottleType = req.body.type;
     let bottleName = req.body.name;
     let bottleDes  = req.body.des;
-    let coverUrl = req.body.cover_url;
+    let coverUrl   = req.body.cover_url;
     if(!bottleName){
       throw Error(1001, 'db err');
     }
 
     let timebottle = new TimebottleModel({
-      name : bottleName,
-      type : bottleType || 0,
-      des  : bottleDes || '',
-      cover_url   : coverUrl || '',
+      name      : bottleName,
+      type      : bottleType || 0,
+      des       : bottleDes || '',
+      cover_url : coverUrl || '',
     });
+    console.log('create timeBottle');
     console.log(timebottle);
     TimeBottleBusiness.createBottle(req.user , timebottle)
                       .then((reBottle)=>{
-                        res.json(new ReturnJson({bid:reBottle.bid}));
+                        res.json(new ReturnJson({bid:reBottle.simpleObject().bid}));
                       })
                       .catch((err)=>{
                         next(Error(1001, 'create bottle error'));
@@ -59,7 +60,13 @@ class TimebottleController {
       throw Error(1001, 'user err');
     }
 
-    res.json(new ReturnJson(user.bottles));
+    TimeBottleBusiness.listBottlesByUser(user)
+                      .then((bottleDocs)=>{
+                        return bottleDocs.map((element)=>element.simpleObject());
+                      })
+                      .then((bottles)=>res.json({bottles:bottles}))
+                      .catch((err)=>next(new Error(err.errCode || 1001, 
+                                                   err.message || 'system err')));
   }
 
 };

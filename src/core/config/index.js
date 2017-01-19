@@ -2,6 +2,10 @@
 const devConfig = {
   env : 'develop',
 
+  /** 图片服务器地址 */
+  PHOTO_HOST : 'http://120.25.234.188',
+  PHOTO_REPO : '/upload/',
+
   /** 服务器端口 */
   port: 8081,
 
@@ -24,6 +28,10 @@ const devConfig = {
 /** 发布环境配置对象 */
 const pubConfig = {
   env : 'publish',
+
+  /** 图片服务器地址 */
+  PHOTO_HOST : 'http://120.25.234.188',
+  PHOTO_REPO : '/upload/',
 
   /** 服务器端口 */
   port: 8081,

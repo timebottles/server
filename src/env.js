@@ -46,10 +46,11 @@ const initExpress = ()=>{
   });
   morgan.token('type', function (req, res) { return req.headers['content-type'] });
   let logToken = '(:remote-addr|:remote-user) [:date[clf]] ":method :url HTTP/:http-version" ":referrer" ":user-agent" (:status :res[content-length] bytes :response-time ms) ';
+  app.use(morgan(logToken));
   app.use(morgan(logToken, {stream: accessLogStream}))
 
   // ---- static path
-  app.use(express.static(path.join(__rootdir,'public')));
+  app.use(express.static(path.join(__rootdir,'static/public')));
   // app.use(favicon(path.join(__rootdir,'public','favicon.png')));
 
   // ---- paser

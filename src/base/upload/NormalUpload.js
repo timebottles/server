@@ -5,8 +5,8 @@
  *
  *  Brief:
  *
- *  普通上传，限制上传大小为 2MB
- *  将上传文件保存在 /uploads/normal 目录中，并以当前时间戳重命名
+ *  普通上传，限制上传大小为 10MB
+ *  将上传文件保存在 ./static/tmp/upload 目录中，并以当前时间戳重命名
  *
  *
  *  Usage :
@@ -18,7 +18,7 @@ var multer = require('multer');
 var storage = multer.diskStorage({
   //设置上传后文件路径，uploads文件夹会自动创建。
   destination: function(req, file, cb) {
-    cb(null, './public');
+    cb(null, './static/public/upload');
   },
   //给上传文件重命名，获取添加后缀名
   filename: function(req, file, cb) {
@@ -37,8 +37,8 @@ var storage = multer.diskStorage({
 var upload = multer({
   storage: storage,
   limits: {
-    fileSize: 2 * 1024 * 1024,
-    // 2MB
+    fileSize: 10 * 1024 * 1024,
+    // 10MB
     files: 5,
   }
 });

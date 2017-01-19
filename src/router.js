@@ -15,15 +15,15 @@
 
 // tools
 import ReturnJson from 'app/base/network/ReturnJson';
-import NormalUploadParse from 'app/base/upload/NormalUpload';
+import normalUploader from 'app/base/upload/NormalUpload';
 import paramParser from 'app/core/middleware/ParamParser';
 import passport from 'passport';
 // modules
+import demo from './module/demo';
 import common from './module/common';
 import user from './module/user';
-import piece from './module/piece';
-import demo from './module/demo';
 import bottle from './module/timebottle';
+import fragment from './module/fragment';
 
 // 路由处理
 export default function router(app) {
@@ -59,10 +59,12 @@ export default function router(app) {
   app.post('/bottle/list' , user.checkLogin , paramParser , bottle.listBottles);
 
   // -------------------------
-  // Piece（时光碎片相关）
+  // fragment（时光碎片相关）
   // -------------------------
   // upload
-  app.post('/piece/upload', NormalUploadParse.single('piece'), piece.uploadPiece);
+  app.post('/fragment/upload', user.checkLogin , normalUploader.single('fragment'),
+            paramParser , fragment.uploadFragment);
+  app.post('/fragment/list' , user.checkLogin , paramParser , fragment.listFragment);
 
   // -------------------------
   // Demo（调试相关）

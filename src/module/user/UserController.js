@@ -23,7 +23,7 @@ class UserController {
   /** 列出当前系统的所有用户 */
   static listUser(req, res, next) {
     UserBusiness.listUser()
-      .then((users) => res.json(new ReturnJson(users)))
+      .then((users) => res.json(new ReturnJson({user_info:users})))
       .catch((e) => next(Error(1001, 'db err')));
   }
 
@@ -34,7 +34,7 @@ class UserController {
 
   /** 登录授权服务 */
   static passLogin(req, res) {
-    res.json(new ReturnJson(req.user.specOjbect()));
+    res.json(new ReturnJson({ user_info: req.user.specOjbect()}));
   }
 
   /** 检查登录 */
@@ -56,9 +56,7 @@ class UserController {
    */
   static register(req, res, next) {
     UserBusiness.registerUser(req.body.phone, req.body.password, req.body.verifycode)
-      .then((doc) => res.json(new ReturnJson({
-        uid: doc.uid
-      })))
+      .then((doc) => res.json(new ReturnJson({ uid: doc.simpleObject().uid })))
       .catch((e) => next(e));
   }
 };

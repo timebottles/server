@@ -13,6 +13,8 @@
  */
 import {Error, ErrorCode, ReturnJson} from 'app/base/network';
 import UserModel from 'app/model/UserModel';
+import TimebottleModel from 'app/model/TimebottleModel';
+import TimeBottleBusiness from 'app/module/timebottle/business/TimeBottleBusiness';
 
 // 用户模块业务类
 export default class userBusiness {
@@ -27,7 +29,7 @@ export default class userBusiness {
 
   /**
    * 注册
-   * @return {Promise} Promise->(user document)
+   * @return {Promise} Promise->(userModel)
    */
   static registerUser(phone, psw, vcode) {
     if (!phone || !psw || !vcode) {
@@ -58,9 +60,20 @@ export default class userBusiness {
         account: phone,
         psw: psw,
         user_type: UserModel.TYPE_SYSTEM,
-        phone: phone
+        phone: phone,
       });
-      return newUser.save();
+      return newUser.save()
+                    .then((userDoc)=>{
+                      newUser = userDoc;
+                      let default_bottle = new TimebottleModel({
+                            name      : 'default',
+                            type      : TimebottleModel.TYPE_PUBLIC,
+                            des       : 'default',
+                            cover_url : '',
+                          });
+                      return TimeBottleBusiness.createBottle(userDoc, default_bottle, true);
+                    })
+                    .then(()=>newUser);
     });
   }
 }

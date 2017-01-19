@@ -1,13 +1,11 @@
 import mongoose from 'mongoose';
-import {autoIncrement} from 'app/base/db/DBConnection';
 let Schema = mongoose.Schema;
 
 // -----------------------------------------------
 //         Schema 定义
 // -----------------------------------------------
 let UserSchema = new Schema({
-  uid              : {type:Number , index:true},                          // User的自定义id索引
-  account          : {type:String , index:true},                          // User的帐号
+  account          : { type: String , index:true},                          // User的帐号
   name             : { type: String, required: false },
   psw              : { type: String, required: false },
   gender           : { type: Number, required: true, default: 0 },
@@ -20,10 +18,9 @@ let UserSchema = new Schema({
   expires          : { type: Date, required: false },
   phone            : { type: String, required: false, index:true },
   email            : { type: String, required: false },
-  bottles          : { type: [], required: false },
-  create_bottles   : { type: [], required: false },
-  fragments        : { type: [], required: false },
-  create_fragments : { type: [], required: false },
+  bottles          : { type: [Schema.Types.ObjectId], required: false },
+  create_bottles   : { type: [Schema.Types.ObjectId], required: false },
+  default_bottle   : { type: Schema.Types.ObjectId, required: false },  // 每个用户都有一个默认的瓶子
   register_time    : { type: Date, required: false, default: Date.now() },
   is_new_user      : { type: Boolean, required: false , default: true},
 });
@@ -44,7 +41,7 @@ let UserSchema = new Schema({
  */
 UserSchema.methods.specOjbect = function () {
   return {
-    uid:this.uid,
+    uid:this._id,
     account:this.account,
     name:this.name || '',
     gender:this.gender,
@@ -65,9 +62,9 @@ UserSchema.methods.specOjbect = function () {
  * @method simpleOjbect
  * @return {object}     用户的简单数据模型，包含一个用户的基本信息。
  */
-UserSchema.methods.simpleOjbect = function () {
+UserSchema.methods.simpleObject = function () {
   return {
-    uid:this.uid,
+    uid:this._id,
     account:this.account,
     name:this.name||'',
     gender:this.gender,
@@ -115,12 +112,6 @@ User.STATUS_FORMIT = 1;
 //         Schema 选项
 // -----------------------------------------------
 UserSchema.set('toJSON', { virtuals: true })
-UserSchema.plugin(autoIncrement.plugin, {
-  model: 'User',
-  field: 'uid',
-  startAt: 1,
-  incrementBy: 1
-});
 
 //导出 User Model
 export default User;
